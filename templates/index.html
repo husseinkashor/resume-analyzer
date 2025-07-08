@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume Analyzer</title>
+</head>
+<body>
+    <h1>Resume Analyzer</h1>
+
+    <!-- Upload Form -->
+    <h2>Upload your Resume</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="resume" accept="application/pdf" required>
+        <button type="submit">Analyze</button>
+    </form>
+
+    <!-- If there is analysis, show the results -->
+    {% if analysis %}
+        <hr>
+        <h2>Skill Match: {{ analysis.score }}%</h2>
+
+        <p><strong>Matched Skills:</strong></p>
+        <ul>
+            {% for skill in analysis.matched_skills %}
+                <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+
+        <p><strong>Missing Skills:</strong></p>
+        <ul>
+            {% for skill in analysis.missing_skills %}
+                <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- If grammar issues are present, show suggestions -->
+    {% if grammar %}
+        <hr>
+        <h2>Grammar Suggestions:</h2>
+        <ul>
+            {% for issue in grammar %}
+                <li>
+                    {{ issue.message }}<br>
+                    <em>({{ issue.sentence }})</em>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
